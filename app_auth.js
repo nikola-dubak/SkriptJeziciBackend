@@ -9,7 +9,7 @@ require("dotenv").config();
 const app = express();
 
 var corsOptions = {
-    origin: "http://127.0.0.1:7000",
+    origin: "http://localhost:7000",
     optionsSuccessStatus: 200
 }
 
@@ -47,6 +47,9 @@ app.post("/login", async (request, response) => {
                 email: value.email
             }
         });
+        if (!user) {
+            throw "User not found";
+        }
         if (!bcrypt.compareSync(value.password, user.password)) {
             response.status(400).json("Invalid credentials");
             return;
