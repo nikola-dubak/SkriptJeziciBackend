@@ -21,8 +21,8 @@ function addButtonListener() {
             if (!json.token) {
                throw json;
             }
-            document.cookie = `token=${json.token};SameSite=Lax`;
-            window.location.href = "index.html";
+            document.cookie = `token=${json.token}`;
+            window.location.href = "/admin/";
         } catch (err) {
             errorAlert.innerText = err;
             errorAlert.hidden = false;

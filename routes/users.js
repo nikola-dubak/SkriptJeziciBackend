@@ -17,10 +17,26 @@ route.get("/users", async (request, response) => {
     }
 });
 
+route.get("/users/:id", async (request, response) => {
+    try {
+        const user = await Users.findOne({
+            where: {
+                id: request.params.id
+            }
+        });
+        if (!user) {
+            throw "User not found";
+        }
+        response.json(user);
+    } catch (error) {
+        response.status(500).json(error);
+    }
+});
+
 const schema = Joi.object({
     id: Joi.number().integer().min(1),
     email: Joi.string().email().max(255),
-    password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9]{3,30}$")),
+    password: Joi.string(),
     role: Joi.string().valid("admin", "moderator", "user"),
     isBanned: Joi.boolean()
 });
@@ -31,6 +47,8 @@ route.post("/users", async (request, response) => {
         if (error) {
             throw(error);
         }
+        const salt = bcrypt.genSaltSync(10);
+        value.password = bcrypt.hashSync(value.password, salt);
         const user = await Users.create(value);
         response.json(user.withoutPassword());
     } catch (error) {
@@ -54,6 +72,10 @@ route.put("/users", async (request, response) => {
         });
         if (!user) {
             throw "User not found";
+        }
+        if (value.password != user.password) {
+            const salt = bcrypt.genSaltSync(10);
+            value.password = bcrypt.hashSync(value.password, salt);
         }
         await user.update(value);
         response.status(200).send();

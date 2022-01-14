@@ -1,5 +1,6 @@
 const express = require("express");
 const { sequelize } = require("./models");
+const cors = require("cors");
 const followsRoute = require("./routes/follows");
 const groupMembersRoute = require("./routes/groupMembers");
 const groupsRoute = require("./routes/groups");
@@ -11,6 +12,14 @@ const usersRoute = require("./routes/users");
 require("dotenv").config();
 
 const app = express();
+
+var corsOptions = {
+    origin: "http://localhost:7000",
+    optionsSuccessStatus: 200
+}
+
+app.use(express.json());
+app.use(cors(corsOptions));
 
 app.use("/api", followsRoute);
 app.use("/api", groupMembersRoute);
