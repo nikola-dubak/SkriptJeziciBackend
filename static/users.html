@@ -73,35 +73,35 @@
         <div class="modal" id="editUserModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit user</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <label for="editUserId">Id</label>
-                    <input type="text" id="editUserId" disabled><br>
-                    <label for="editEmailInput">Email</label>
-                    <input type="email" id="editEmailInput"><br>
-                    <label for="editPasswordInput">Password</label>
-                    <input type="password" id="editPasswordInput">
-                    <label for="editRoleInput">Role</label>
-                    <select id="editRoleInput">
-                        <option value="user">User</option>
-                        <option value="moderator">Moderator</option>
-                        <option value="admin">Admin</option>
-                    </select><br>
-                    <label for="editIsBanned">Is banned</label>
-                    <select id="editIsBanned">
-                        <option value="false">False</option>
-                        <option value="true">True</option>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="editUser()">Edit user</button>
-                </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit user</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="editUserId">Id</label>
+                        <input type="text" id="editUserId" disabled><br>
+                        <label for="editEmailInput">Email</label>
+                        <input type="email" id="editEmailInput"><br>
+                        <label for="editPasswordInput">Password</label>
+                        <input type="password" id="editPasswordInput">
+                        <label for="editRoleInput">Role</label>
+                        <select id="editRoleInput">
+                            <option value="user">User</option>
+                            <option value="moderator">Moderator</option>
+                            <option value="admin">Admin</option>
+                        </select><br>
+                        <label for="editIsBanned">Is banned</label>
+                        <select id="editIsBanned">
+                            <option value="false">False</option>
+                            <option value="true">True</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="editUser()">Edit user</button>
+                    </div>
                 </div>
             </div>
         </div>

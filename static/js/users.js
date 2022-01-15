@@ -10,7 +10,7 @@ async function initUsers() {
     const users = await response.json();
     const tbody = document.getElementById("data");
     users.forEach(user => {
-        let row = `<tr id="${user.id}">`;
+        let row = `<tr>`;
         row += `<td>${user.id}</td>`;
         row += `<td>${user.email}</td>`;
         row += `<td>${user.password}</td>`;

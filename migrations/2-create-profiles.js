@@ -14,18 +14,13 @@ module.exports = {
         },
         name: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                isAlpha: {
-                    msg: "Only letters allowed in name"
-                }
-            }
+            allowNull: false
         },
         profilePicturePath: {
             type: DataTypes.STRING
         },
-        birthDate: {
-            type: DataTypes.DATE
+        birthday: {
+            type: DataTypes.DATEONLY
         },
         education: {
             type: DataTypes.STRING
@@ -33,7 +28,7 @@ module.exports = {
         work: {
             type: DataTypes.STRING
         },
-        currentCity: {
+        city: {
             type: DataTypes.STRING
         },
         relationship: {

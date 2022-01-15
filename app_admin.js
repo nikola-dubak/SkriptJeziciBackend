@@ -5,19 +5,27 @@ const app = express();
 
 const router = express.Router();
 
-router.get("/login", async (request, response) => {
+router.get("/login", (request, response) => {
     response.sendFile("login.html", { root: "./static" });
 });
 
-router.get("/", async (request, response) => {
-    response.sendFile("index.html", { root: "./static" });
+router.get("/", (request, response) => {
+    response.redirect("/admin/home");
 });
 
-router.get("/users", async (request, response) => {
+router.get("/home", (request, response) => {
+    response.sendFile("home.html", { root: "./static" });
+});
+
+router.get("/users", (request, response) => {
     response.sendFile("users.html", { root: "./static" });
 });
 
-app.use("/admin", router);
+router.get("/profiles", (request, response) => {
+    response.sendFile("profiles.html", { root: "./static" });
+});
+
+app.use("/admin/", router);
 
 app.use("/admin/js", express.static(path.join(__dirname, "static/js")));
 

@@ -16,15 +16,31 @@ route.get("/profiles", async (request, response) => {
     }
 });
 
+route.get("/profiles/:userId", async (request, response) => {
+    try {
+        const profile = await Profiles.findOne({
+            where: {
+                userId: request.params.userId
+            }
+        });
+        if (!profile) {
+            throw "No profile found";
+        }
+        response.json(profile);
+    } catch (error) {
+        response.status(500).json(error);
+    }
+});
+
 const schema = Joi.object({
     userId: Joi.number().integer().min(1).required(),
-    name: Joi.string().alphanum().max(50),
-    profilePicturePath: Joi.string().max(255),
-    birthDate: Joi.date(),
-    education: Joi.string().max(255),
-    work: Joi.string().max(255),
-    currentCity: Joi.string().max(255),
-    relationship: Joi.string().valid("single", "taken")
+    name: Joi.string().empty("").default(null).max(50),
+    profilePicturePath: Joi.string().empty("").default(null).max(255),
+    birthday: Joi.date().empty("").default(null),
+    education: Joi.string().empty("").default(null).max(255),
+    work: Joi.string().empty("").default(null).max(255),
+    city: Joi.string().empty("").default(null).max(255),
+    relationship: Joi.string().empty("").default(null).valid("single", "taken")
 });
 
 route.post("/profiles", async (request, response) => {
@@ -46,12 +62,12 @@ route.put("/profiles", async (request, response) => {
         if (error) {
             throw(error);
         }
-        if (!value.id) {
-            throw "No profile id provided";
+        if (!value.userId) {
+            throw "No profile userId provided";
         }
         const profile = await Profiles.findOne({
             where: {
-                id: value.id
+                userId: value.userId
             }
         });
         if (!profile) {
@@ -70,12 +86,12 @@ route.delete("/profiles", async (request, response) => {
         if (error) {
             throw(error);
         }
-        if (!value.id) {
-            throw "No profile id provided";
+        if (!value.userId) {
+            throw "No profile userId provided";
         }
         const profile = await Profiles.findOne({
             where: {
-                id: value.id
+                userId: value.userId
             }
         });
         if (!profile) {
