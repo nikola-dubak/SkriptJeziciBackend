@@ -16,6 +16,22 @@ route.get("/groups", async (request, response) => {
     }
 });
 
+route.get("/groups/:id", async (request, response) => {
+    try {
+        const group = await Groups.findOne({
+            where: {
+                id: request.params.id
+            }
+        });
+        if (!group) {
+            throw "Group not found";
+        }
+        response.json(group);
+    } catch (error) {
+        response.status(500).json(error);
+    }
+});
+
 const schema = Joi.object({
     id: Joi.number().integer().min(1),
     name: Joi.string().alphanum().min(3).max(50),

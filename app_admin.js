@@ -25,6 +25,10 @@ router.get("/profiles", (request, response) => {
     response.sendFile("profiles.html", { root: "./static" });
 });
 
+router.get("/groups", (request, response) => {
+    response.sendFile("groups.html", { root: "./static" });
+});
+
 app.use("/admin/", router);
 
 app.use("/admin/js", express.static(path.join(__dirname, "static/js")));
