@@ -16,12 +16,28 @@ route.get("/posts", async (request, response) => {
     }
 });
 
+route.get("/posts/:id", async (request, response) => {
+    try {
+        const post = await Posts.findOne({
+            where: {
+                id: request.params.id
+            }
+        });
+        if (!post) {
+            throw "Post not found";
+        }
+        response.json(post);
+    } catch (error) {
+        response.status(500).json(error);
+    }
+});
+
 const schema = Joi.object({
     id: Joi.number().integer().min(1),
     text: Joi.string().min(3).max(255),
     userId: Joi.number().integer().min(1),
-    groupId: Joi.number().integer().min(1),
-    parentId: Joi.number().integer().min(1)
+    groupId: Joi.number().integer().min(1).empty("").default(null),
+    parentId: Joi.number().integer().min(1).empty("").default(null)
 });
 
 route.post("/posts", async (request, response) => {

@@ -8,16 +8,16 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
-        <title>Groups</title>
+        <title>Posts</title>
     </head>
-    <body onload="initGroups()">
+    <body onload="initPosts()">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"><a class="nav-link" href="/admin/home">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin/users">Users</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin/profiles">Profiles</a></li>
-                <li class="nav-item"><a class="nav-link active">Groups</a></li>
-                <li class="nav-item"><a class="nav-link" href="/admin/posts">Posts</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/groups">Groups</a></li>
+                <li class="nav-item"><a class="nav-link active">Posts</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin/follows">Follows</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin/likes">Likes</a></li>
                 <li class="nav-item"><a class="nav-link" href="/admin/reports">Reports</a></li>
@@ -25,51 +25,54 @@
             </ul>
         </nav>
         <div class="container-fluid">
-            <h1>Groups</h1>
+            <h1>Posts</h1>
             <table class="table table-striped table-bordered">
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Owner id</th>
+                    <th scope="col">Text</th>
+                    <th scope="col">User id</th>
+                    <th scope="col">Group id</th>
+                    <th scope="col">Parent id</th>
                     <th scope="col">Created at</th>
                     <th scope="col">Updated at</th>
-                    <th scope="col"><button type="button" class="btn-success" data-toggle="modal" data-target="#addGroupModal">&#10133;</button></th>
+                    <th scope="col"><button type="button" class="btn-success" data-toggle="modal" data-target="#addPostModal">&#10133;</button></th>
                 </tr>
                 </thead>
                 <tbody id="data"></tbody>
             </table>
         </div>
-        <div class="modal" id="addGroupModal" tabindex="-1">
+        <div class="modal" id="addPostModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Add new group</h5>
+                        <h5 class="modal-title">Add new post</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <label for="newNameInput">Name</label>
-                        <input type="text" id="newNameInput"><br>
-                        <label for="newDescriptionInput">Description</label>
-                        <input type="text" id="newDescriptionInput"><br>
-                        <label for="newOwnerIdInput">Owner id</label>
-                        <input type="number" id="newOwnerIdInput" min="1" step="1">
+                        <label for="newTextInput">Text</label>
+                        <input type="text" id="newTextInput"><br>
+                        <label for="newUserId">User id</label>
+                        <input type="number" id="newUserIdInput" min="1" step="1"><br>
+                        <label for="newGroupIdInput">Group id</label>
+                        <input type="number" id="newGroupIdInput" min="1" step="1"><br>
+                        <label for="newParentIdInput">Parent id</label>
+                        <input type="number" id="newParentIdInput" min="1" step="1">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="addNewGroup()">Add new group</button>
+                        <button type="button" class="btn btn-primary" onclick="addNewPost()">Add new post</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="modal" id="editGroupModal" tabindex="-1">
+        <div class="modal" id="editPostModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit group</h5>
+                        <h5 class="modal-title">Edit post</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -77,16 +80,18 @@
                     <div class="modal-body">
                         <label for="editIdInput">Id</label>
                         <input type="number" id="editIdInput" min="1" step="1" disabled><br>
-                        <label for="editNameInput">Name</label>
-                        <input type="text" id="editNameInput"><br>
-                        <label for="editDescriptionInput">Description</label>
-                        <input type="text" id="editDescriptionInput"><br>
-                        <label for="editOwnerIdInput">Owner id</label>
-                        <input type="number" id="editOwnerIdInput" min="1" step="1">
+                        <label for="editTextInput">Text</label>
+                        <input type="text" id="editTextInput"><br>
+                        <label for="editUserId">User id</label>
+                        <input type="number" id="editUserIdInput" min="1" step="1"><br>
+                        <label for="editGroupIdInput">Group id</label>
+                        <input type="number" id="editGroupIdInput" min="1" step="1"><br>
+                        <label for="editParentIdInput">Parent id</label>
+                        <input type="number" id="editParentIdInput" min="1" step="1">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" onclick="editGroup()">Edit group</button>
+                        <button type="button" class="btn btn-primary" onclick="editPost()">Edit post</button>
                     </div>
                 </div>
             </div>
@@ -94,6 +99,6 @@
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
         <script src="js/script.js"></script>
-        <script src="js/groups.js"></script>
+        <script src="js/posts.js"></script>
     </body>
 </html>
