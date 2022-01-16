@@ -41,6 +41,10 @@ router.get("/likes", (request, response) => {
     response.sendFile("likes.html", { root: "./static" });
 });
 
+router.get("/reports", (request, response) => {
+    response.sendFile("reports.html", { root: "./static" });
+});
+
 app.use("/admin/", router);
 
 app.use("/admin/js", express.static(path.join(__dirname, "static/js")));

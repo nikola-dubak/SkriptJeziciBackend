@@ -25,6 +25,7 @@ module.exports = {
         },
         reporterId: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
                 model: "Users",
                 key: "id"
@@ -32,6 +33,7 @@ module.exports = {
         },
         postId: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
                 model: "Posts",
                 key: "id"
@@ -52,8 +54,14 @@ module.exports = {
             allowNull: false,
             type: DataTypes.DATE
         }
+    }, {
+        uniqueKeys: {
+          uniqueReport: {
+            fields: ["reporterId", "postId"]
+          }
+        }
     });
-},
+    },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable("Reports");
   }

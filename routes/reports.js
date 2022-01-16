@@ -9,8 +9,24 @@ route.use(express.urlencoded({ extended: true }));
 
 route.get("/reports", async (request, response) => {
     try {
-        const reports = Reports.findAll();
+        const reports = await Reports.findAll();
         response.json(reports);
+    } catch (error) {
+        response.status(500).json(error);
+    }
+});
+
+route.get("/reports/:id", async (request, response) => {
+    try {
+        const report = await Reports.findOne({
+            where: {
+                id: request.params.id
+            }
+        });
+        if (!report) {
+            throw "No report found";
+        }
+        response.json(report);
     } catch (error) {
         response.status(500).json(error);
     }
@@ -19,10 +35,10 @@ route.get("/reports", async (request, response) => {
 const schema = Joi.object({
     id: Joi.number().integer().min(1),
     type: Joi.string().valid("offensive", "spam"),
-    isConfirmed: Joi.boolean(),
+    isConfirmed: Joi.boolean().empty("").default(null),
     reporterId: Joi.number().integer().min(1),
     postId: Joi.number().integer().min(1),
-    reviewerId: Joi.number().integer().min(1)
+    reviewerId: Joi.number().integer().min(1).empty("").default(null)
 });
 
 route.post("/reports", async (request, response) => {
