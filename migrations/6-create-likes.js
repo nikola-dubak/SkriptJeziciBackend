@@ -27,7 +27,13 @@ module.exports = {
           allowNull: false,
           type: DataTypes.DATE
         }
-    });
+    }, {
+      uniqueKeys: {
+        uniqueLike: {
+          fields: ["userId", "postId"]
+        }
+      }
+  });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable("Likes");
