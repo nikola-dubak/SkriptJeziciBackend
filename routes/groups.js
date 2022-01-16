@@ -1,13 +1,18 @@
 const express = require("express");
 const { Groups } = require("../models");
 const Joi = require("joi");
-require("dotenv").config();
+const authToken = require("./authToken");
 
 const route = express.Router();
 route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
+route.use(authToken);
 
 route.get("/groups", async (request, response) => {
+    if (request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
     try {
         const groups = await Groups.findAll();
         response.json(groups);
@@ -17,6 +22,10 @@ route.get("/groups", async (request, response) => {
 });
 
 route.get("/groups/:id", async (request, response) => {
+    if (request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
     try {
         const group = await Groups.findOne({
             where: {
@@ -40,6 +49,10 @@ const schema = Joi.object({
 });
 
 route.post("/groups", async (request, response) => {
+    if (request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
     try {
         const { error, value } = schema.validate(request.body);
         if (error) {
@@ -53,6 +66,10 @@ route.post("/groups", async (request, response) => {
 });
 
 route.put("/groups", async (request, response) => {
+    if (request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
     try {
         const { error, value } = schema.validate(request.body);
         if (error) {
@@ -77,6 +94,10 @@ route.put("/groups", async (request, response) => {
 });
 
 route.delete("/groups", async (request, response) => {
+    if (request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
     try {
         const { error, value } = schema.validate(request.body);
         if (error) {

@@ -1,13 +1,18 @@
 const express = require("express");
 const { Likes } = require("../models");
 const Joi = require("joi");
-require("dotenv").config();
+const authToken = require("./authToken");
 
 const route = express.Router();
 route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
+route.use(authToken);
 
 route.get("/likes", async (request, response) => {
+    if (request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
     try {
         const likes = await Likes.findAll();
         response.json(likes);
@@ -22,6 +27,10 @@ const schema = Joi.object({
 });
 
 route.post("/likes", async (request, response) => {
+    if (request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
     try {
         const { error, value } = schema.validate(request.body);
         if (error) {
@@ -35,6 +44,10 @@ route.post("/likes", async (request, response) => {
 });
 
 route.delete("/likes", async (request, response) => {
+    if (request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
     try {
         const { error, value } = schema.validate(request.body);
         if (error) {

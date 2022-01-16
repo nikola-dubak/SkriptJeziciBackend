@@ -1,13 +1,18 @@
 const express = require("express");
 const { GroupMembers } = require("../models");
 const Joi = require("joi");
-require("dotenv").config();
+const authToken = require("./authToken");
 
 const route = express.Router();
 route.use(express.json());
 route.use(express.urlencoded({ extended: true }));
+route.use(authToken);
 
 route.get("/groupMembers", async (request, response) => {
+    if (request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
     try {
         const groupMembers = await GroupMembers.findAll();
         response.json(groupMembers);
@@ -22,6 +27,10 @@ const schema = Joi.object({
 });
 
 route.post("/groupMembers", async (request, response) => {
+    if (request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
     try {
         const { error, value } = schema.validate(request.body);
         if (error) {
@@ -35,6 +44,10 @@ route.post("/groupMembers", async (request, response) => {
 });
 
 route.delete("/groupMembers", async (request, response) => {
+    if (request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
     try {
         const { error, value } = schema.validate(request.body);
         if (error) {
