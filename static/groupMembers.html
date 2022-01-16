@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+        <title>Group members</title>
+    </head>
+    <body onload="initGroupMembers()">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a class="nav-link" href="/admin/home">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/users">Users</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/profiles">Profiles</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/groups">Groups</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/posts">Posts</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/follows">Follows</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/likes">Likes</a></li>
+                <li class="nav-item"><a class="nav-link" href="/admin/reports">Reports</a></li>
+                <li class="nav-item"><a class="nav-link active">Group members</a></li>
+            </ul>
+        </nav>
+        <div class="container-fluid">
+            <h1>Group members</h1>
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">User id</th>
+                    <th scope="col">Group id</th>
+                    <th scope="col">Created at</th>
+                    <th scope="col">Updated at</th>
+                    <th scope="col"><button type="button" class="btn-success" data-toggle="modal" data-target="#addGroupMemberModal">&#10133;</button></th>
+                </tr>
+                </thead>
+                <tbody id="data"></tbody>
+            </table>
+        </div>
+        <div class="modal" id="addGroupMemberModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add new group member</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="newUserIdInput">User id</label>
+                        <input type="number" id="newUserIdInput" min="1" step="1"><br>
+                        <label for="newGroupIdInput">Group id</label>
+                        <input type="number" id="newGroupIdInput" min="1" step="1"><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="addNewGroupMember()">Add new group member</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+        <script src="js/script.js"></script>
+        <script src="js/groupMembers.js"></script>
+    </body>
+</html>
