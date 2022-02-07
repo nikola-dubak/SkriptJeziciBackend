@@ -9,10 +9,6 @@ route.use(express.urlencoded({ extended: true }));
 route.use(authToken);
 
 route.get("/likes", async (request, response) => {
-    if (request.user.role != "admin") {
-        response.status(403).send();
-        return;
-    }
     try {
         const likes = await Likes.findAll();
         response.json(likes);
@@ -27,7 +23,7 @@ const schema = Joi.object({
 });
 
 route.post("/likes", async (request, response) => {
-    if (request.user.role != "admin") {
+    if (request.user.id != request.body.userId && request.user.role != "admin") {
         response.status(403).send();
         return;
     }
@@ -44,7 +40,7 @@ route.post("/likes", async (request, response) => {
 });
 
 route.delete("/likes", async (request, response) => {
-    if (request.user.role != "admin") {
+    if (request.user.id != request.body.userId && request.user.role != "admin") {
         response.status(403).send();
         return;
     }

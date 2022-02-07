@@ -9,10 +9,6 @@ route.use(express.urlencoded({ extended: true }));
 route.use(authToken);
 
 route.get("/profiles", async (request, response) => {
-    if (request.user.role != "admin") {
-        response.status(403).send();
-        return;
-    }
     try {
         const profiles = await Profiles.findAll();
         response.json(profiles);
@@ -22,10 +18,6 @@ route.get("/profiles", async (request, response) => {
 });
 
 route.get("/profiles/:userId", async (request, response) => {
-    if (request.user.role != "admin") {
-        response.status(403).send();
-        return;
-    }
     try {
         const profile = await Profiles.findOne({
             where: {
@@ -44,7 +36,6 @@ route.get("/profiles/:userId", async (request, response) => {
 const schema = Joi.object({
     userId: Joi.number().integer().min(1).required(),
     name: Joi.string().empty("").default(null).max(50),
-    profilePicturePath: Joi.string().empty("").default(null).max(255),
     birthday: Joi.date().empty("").default(null),
     education: Joi.string().empty("").default(null).max(255),
     work: Joi.string().empty("").default(null).max(255),
@@ -53,7 +44,7 @@ const schema = Joi.object({
 });
 
 route.post("/profiles", async (request, response) => {
-    if (request.user.role != "admin") {
+    if (request.user.id != request.body.userId && request.user.role != "admin") {
         response.status(403).send();
         return;
     }
@@ -70,7 +61,7 @@ route.post("/profiles", async (request, response) => {
 });
 
 route.put("/profiles", async (request, response) => {
-    if (request.user.role != "admin") {
+    if (request.user.id != request.body.userId && request.user.role != "admin") {
         response.status(403).send();
         return;
     }
@@ -98,7 +89,7 @@ route.put("/profiles", async (request, response) => {
 });
 
 route.delete("/profiles", async (request, response) => {
-    if (request.user.role != "admin") {
+    if (request.user.id != request.body.userId && request.user.role != "admin") {
         response.status(403).send();
         return;
     }

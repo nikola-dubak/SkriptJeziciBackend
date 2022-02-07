@@ -15,7 +15,6 @@ route.get("/users", async (request, response) => {
         return;
     }
     try {
-        console.log(request.user);
         const users = await Users.findAll();
         response.json(users);
     } catch (error) {

@@ -9,7 +9,7 @@ require("dotenv").config();
 const app = express();
 
 var corsOptions = {
-    origin: "http://localhost:7000",
+    origin: ["http://localhost:7000", "http://localhost:8080"],
     optionsSuccessStatus: 200
 }
 
@@ -30,7 +30,11 @@ app.post("/register", async (request, response) => {
         const salt = bcrypt.genSaltSync(10);
         value.password = bcrypt.hashSync(value.password, salt);
         const user = await Users.create(value);
-        response.json(user.withoutPassword());
+        if (!user) {
+            throw "User not created";
+        }
+        const token = jwt.sign(user.withoutPassword(), process.env.ACCESS_TOKEN_SECRET);
+        response.json({ token: token });
     } catch (error) {
         response.status(500).json(error);
     }

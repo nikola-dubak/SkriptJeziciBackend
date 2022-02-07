@@ -9,10 +9,6 @@ route.use(express.urlencoded({ extended: true }));
 route.use(authToken);
 
 route.get("/groupMembers", async (request, response) => {
-    if (request.user.role != "admin") {
-        response.status(403).send();
-        return;
-    }
     try {
         const groupMembers = await GroupMembers.findAll();
         response.json(groupMembers);
@@ -27,7 +23,7 @@ const schema = Joi.object({
 });
 
 route.post("/groupMembers", async (request, response) => {
-    if (request.user.role != "admin") {
+    if (request.user.id != request.body.userId && request.user.role != "admin") {
         response.status(403).send();
         return;
     }
@@ -44,7 +40,7 @@ route.post("/groupMembers", async (request, response) => {
 });
 
 route.delete("/groupMembers", async (request, response) => {
-    if (request.user.role != "admin") {
+    if (request.user.id != request.body.userId && request.user.role != "admin") {
         response.status(403).send();
         return;
     }

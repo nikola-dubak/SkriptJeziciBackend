@@ -13,9 +13,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        profilePicturePath: {
-            type: DataTypes.STRING
-        },
         birthday: {
             type: DataTypes.DATEONLY
         },

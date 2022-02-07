@@ -9,10 +9,6 @@ route.use(express.urlencoded({ extended: true }));
 route.use(authToken);
 
 route.get("/follows", async (request, response) => {
-    if (request.user.role != "admin") {
-        response.status(403).send();
-        return;
-    }
     try {
         const follows = await Follows.findAll();
         response.json(follows);
@@ -27,7 +23,7 @@ const schema = Joi.object({
 });
 
 route.post("/follows", async (request, response) => {
-    if (request.user.role != "admin") {
+    if (request.user.id != request.body.followerId && request.user.role != "admin") {
         response.status(403).send();
         return;
     }
@@ -44,7 +40,7 @@ route.post("/follows", async (request, response) => {
 });
 
 route.delete("/follows", async (request, response) => {
-    if (request.user.role != "admin") {
+    if (request.user.id != request.body.followerId && request.user.role != "admin") {
         response.status(403).send();
         return;
     }

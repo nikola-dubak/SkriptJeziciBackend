@@ -12,7 +12,6 @@ function authToken(request, response, next) {
         request.user = user;
         next();
     } catch (error) {
-        console.log(error);
         return response.status(403).json({ msg: error });
     }
 }

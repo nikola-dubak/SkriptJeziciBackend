@@ -12,7 +12,6 @@ async function initProfiles() {
         let row = `<tr>`;
         row += `<td>${profile.userId}</td>`;
         row += `<td>${profile.name}</td>`;
-        row += `<td>${profile.profilePicturePath}</td>`;
         row += `<td>${profile.birthday}</td>`;
         row += `<td>${profile.education}</td>`;
         row += `<td>${profile.work}</td>`;
@@ -36,7 +35,6 @@ async function resetProfiles() {
 async function addNewProfile() {
     const userIdInput = document.getElementById("newUserIdInput");
     const nameInput = document.getElementById("newNameInput");
-    const profilePicturePathInput = document.getElementById("newprofilePicturePathInput");
     const birthdayInput = document.getElementById("newBirthdayInput");
     const educationInput = document.getElementById("newEducationInput");
     const workInput = document.getElementById("newWorkInput");
@@ -46,7 +44,6 @@ async function addNewProfile() {
     const data = { 
         userId: userIdInput.value,
         name: nameInput.value,
-        profilePicturePath: profilePicturePathInput.value,
         birthday: birthdayInput.value,
         education: educationInput.value,
         work: workInput.value,
@@ -66,7 +63,6 @@ async function addNewProfile() {
     $("#addProfileModal").modal("hide");
     userIdInput.value = "";
     nameInput.value = "";
-    profilePicturePathInput.value = "";
     birthdayInput.value = "";
     educationInput.value = "";
     workInput.value = "";
@@ -85,7 +81,6 @@ async function initEditModal(userId) {
     const profile = await response.json();
     document.getElementById("editUserIdInput").value = profile.userId;
     document.getElementById("editNameInput").value = profile.name;
-    document.getElementById("editprofilePicturePathInput").value = profile.profilePicturePath;
     document.getElementById("editBirthdayInput").value = profile.birthday;
     document.getElementById("editEducationInput").value = profile.education;
     document.getElementById("editWorkInput").value = profile.work;
@@ -97,7 +92,6 @@ async function initEditModal(userId) {
 async function editProfile() {
     const userIdInput = document.getElementById("editUserIdInput");
     const nameInput = document.getElementById("editNameInput");
-    const profilePicturePathInput = document.getElementById("editprofilePicturePathInput");
     const birthdayInput = document.getElementById("editBirthdayInput");
     const educationInput = document.getElementById("editEducationInput");
     const workInput = document.getElementById("editWorkInput");
@@ -107,7 +101,6 @@ async function editProfile() {
     const data = { 
         userId: userIdInput.value,
         name: nameInput.value,
-        profilePicturePath: profilePicturePathInput.value,
         birthday: birthdayInput.value,
         education: educationInput.value,
         work: workInput.value,

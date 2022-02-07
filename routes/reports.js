@@ -51,7 +51,7 @@ const schema = Joi.object({
 });
 
 route.post("/reports", async (request, response) => {
-    if (request.user.role != "admin" && request.user.role != "moderator") {
+    if (request.user.id != request.body.userId && request.user.role != "admin" && request.user.role != "moderator") {
         response.status(403).send();
         return;
     }

@@ -9,10 +9,6 @@ route.use(express.urlencoded({ extended: true }));
 route.use(authToken);
 
 route.get("/posts", async (request, response) => {
-    if (request.user.role != "admin") {
-        response.status(403).send();
-        return;
-    }
     try {
         const posts = await Posts.findAll();
         response.json(posts);
@@ -22,10 +18,6 @@ route.get("/posts", async (request, response) => {
 });
 
 route.get("/posts/:id", async (request, response) => {
-    if (request.user.role != "admin") {
-        response.status(403).send();
-        return;
-    }
     try {
         const post = await Posts.findOne({
             where: {
@@ -50,7 +42,7 @@ const schema = Joi.object({
 });
 
 route.post("/posts", async (request, response) => {
-    if (request.user.role != "admin") {
+    if (request.user.id != request.body.userId && request.user.role != "admin") {
         response.status(403).send();
         return;
     }
@@ -67,7 +59,7 @@ route.post("/posts", async (request, response) => {
 });
 
 route.put("/posts", async (request, response) => {
-    if (request.user.role != "admin") {
+    if (request.user.id != request.body.userId && request.user.role != "admin") {
         response.status(403).send();
         return;
     }
@@ -95,7 +87,7 @@ route.put("/posts", async (request, response) => {
 });
 
 route.delete("/posts", async (request, response) => {
-    if (request.user.role != "admin") {
+    if (request.user.id != request.body.userId && request.user.role != "admin") {
         response.status(403).send();
         return;
     }
