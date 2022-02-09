@@ -17,6 +17,23 @@ route.get("/groupMembers", async (request, response) => {
     }
 });
 
+route.get("/groupMembers/users/:userId", async (request, response) => {
+    if (request.user.id != request.params.userId && request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
+    try {
+        const groupMembers = await GroupMembers.findAll({
+            where: {
+                userId: request.params.userId
+            }
+        });
+        response.json(groupMembers);
+    } catch (error) {
+        response.status(500).json(error);
+    }
+});
+
 const schema = Joi.object({
     userId: Joi.number().integer().min(1).required(),
     groupId: Joi.number().integer().min(1).required()

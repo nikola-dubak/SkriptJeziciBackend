@@ -1,7 +1,8 @@
 const express = require("express");
-const { Posts } = require("../models");
+const { Posts, Users, Follows, GroupMembers } = require("../models");
 const Joi = require("joi");
 const authToken = require("./authToken");
+const { Op } = require("sequelize");
 
 const route = express.Router();
 route.use(express.json());
@@ -28,6 +29,64 @@ route.get("/posts/:id", async (request, response) => {
             throw "Post not found";
         }
         response.json(post);
+    } catch (error) {
+        response.status(500).json(error);
+    }
+});
+
+route.get("/posts/users/:userId", async (request, response) => {
+    try {
+        const posts = await Posts.findAll({
+            where: {
+                userId: request.params.userId
+            }
+        });
+        response.json(posts);
+    } catch (error) {
+        response.status(500).json(error);
+    }
+});
+
+route.get("/posts/users/:userId/feed", async (request, response) => {
+    if (request.user.id != request.params.userId && request.user.role != "admin") {
+        response.status(403).send();
+        return;
+    }
+    try {
+        const user = await Users.findOne({
+            where: {
+                id: request.params.userId
+            }
+        });
+        if (!user) {
+            throw "User not found";
+        }
+        const follows = await Follows.findAll({
+            where: {
+                followerId: user.id
+            }
+        });
+        let followedUserIds = follows.map(follow => follow.followedId);
+        followedUserIds.push(user.id);
+        const groupMembers = await GroupMembers.findAll({
+            where: {
+                userId: user.id
+            }
+        });
+        let joinedGroupIds = groupMembers.map(groupMember => groupMember.groupId);
+        const posts = await Posts.findAll({
+            where: {
+                [Op.or]: {
+                    userId: followedUserIds,
+                    groupId: joinedGroupIds
+                },
+                parentId: null
+            },
+            order: [
+                [ "updatedAt", "DESC" ]
+            ]
+        });
+        response.json(posts);
     } catch (error) {
         response.status(500).json(error);
     }

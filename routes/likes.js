@@ -17,6 +17,19 @@ route.get("/likes", async (request, response) => {
     }
 });
 
+route.get("/likes/users/:userId", async (request, response) => {
+    try {
+        const likes = await Likes.findAll({
+            where: {
+                userId: request.params.userId
+            }
+        });
+        response.json(likes);
+    } catch (error) {
+        response.status(500).json(error);
+    }
+});
+
 const schema = Joi.object({
     userId: Joi.number().integer().min(1).required(),
     postId: Joi.number().integer().min(1).required()

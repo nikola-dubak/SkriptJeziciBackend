@@ -1,7 +1,8 @@
 const express = require("express");
-const { Follows } = require("../models");
+const { Follows, Users } = require("../models");
 const Joi = require("joi");
 const authToken = require("./authToken");
+const { Op } = require("sequelize");
 
 const route = express.Router();
 route.use(express.json());
@@ -11,6 +12,22 @@ route.use(authToken);
 route.get("/follows", async (request, response) => {
     try {
         const follows = await Follows.findAll();
+        response.json(follows);
+    } catch (error) {
+        response.status(500).json(error);
+    }
+});
+
+route.get("/follows/users/:userId", async (request, response) => {
+    try {
+        const follows = await Follows.findAll({
+            where: {
+                [Op.or]: [
+                    { followerId: request.params.userId },
+                    { followedId: request.params.userId }
+                ]
+            }
+        });
         response.json(follows);
     } catch (error) {
         response.status(500).json(error);
