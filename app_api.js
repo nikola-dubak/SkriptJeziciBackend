@@ -30,6 +30,6 @@ app.use("/api", profilesRoute);
 app.use("/api", reportsRoute);
 app.use("/api", usersRoute);
 
-app.listen({ port: 8000 }, async () => {
+app.listen({ port: process.env.PORT || 8000 }, async () => {
     await sequelize.authenticate();
 });

@@ -15,11 +15,11 @@
       "dialect": "mariadb"
     },
     "production": {
-      "username": "root",
-      "password": null,
-      "database": "socialnetwork_production",
-      "host": "127.0.0.1",
-      "dialect": "mariadb"
+      "username": "xqviwbfbdqcura",
+      "password": "3a83f436a271e655702280c2cb9bf5850f0967ac2ab678704590f6f90259de8e",
+      "database": "d272sf1rq28e5h",
+      "host": "ec2-176-34-105-15.eu-west-1.compute.amazonaws.com",
+      "dialect": "postgres"
     }
   }
   
